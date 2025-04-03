@@ -1,0 +1,3 @@
+[*.cs]
+# Disables Namespace vs Folder name conflicts
+dotnet_diagnostic.IDE0130.severity = none

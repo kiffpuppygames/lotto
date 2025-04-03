@@ -1,0 +1,57 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+      "MinPlayers": { "type": "integer", "minimum": 1 },
+      "MaxPlayers": { "type": "integer", "minimum": 1 },
+      "MinTickets": { "type": "integer", "minimum": 1 },
+      "MaxTickets": { "type": "integer", "minimum": 1 },
+      "TicketPrice": { "type": "number", "minimum": 0 },
+  
+      "HumanPlayerStartingBalance": { "type": "number", "minimum": 0 },
+      "HumanAllowPlayerCredit": { "type": "boolean" },
+  
+      "AIPlayerStartingBalance": { "type": "number", "minimum": 0 },
+      "AIAllowPlayerCredit": { "type": "boolean" },
+  
+      "GrandPrizeWinningsPercentage": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 100
+      },
+      "Tier2WinPercentage": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 100
+      },
+      "Tier2WinningsShare": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 100
+      },
+      "Tier3WinPercentage": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 100
+      },
+      "Tier3WinningsShare": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 100
+      },
+  
+      "AllowMultiPrize": { "type": "boolean" },
+      "SplitResolution": {
+        "type": "string",
+        "enum": ["round_up", "round_down", "nearest"]
+      }
+    },
+    "required": [
+      "MinPlayers", "MaxPlayers", "MinTickets", "MaxTickets", "TicketPrice",
+      "HumanPlayerStartingBalance", "HumanAllowPlayerCredit",
+      "AIPlayerStartingBalance", "AIAllowPlayerCredit",
+      "GrandPrizeWinningsPercentage", "Tier2WinPercentage", "Tier2WinningsShare",
+      "Tier3WinPercentage", "Tier3WinningsShare", "AllowMultiPrize",
+      "SplitResolution"
+    ]
+  }

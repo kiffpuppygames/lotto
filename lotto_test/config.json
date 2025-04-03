@@ -1,0 +1,22 @@
+{
+  "MinPlayers": 10,
+  "MaxPlayers": 15,
+  "MinTickets": 1,
+  "MaxTickets": 10,
+  "TicketPrice": 1,
+
+  "HumanPlayerStartingBalance": 10.0,
+  "HumanAllowPlayerCredit": true,
+
+  "AIPlayerStartingBalance": 10.0,
+  "AIAllowPlayerCredit": false,
+
+  "GrandPrizeWinningsPercentage": 50.0,
+  "Tier2WinPercentage": 10.0,
+  "Tier2WinningsShare": 30.0,
+  "Tier3WinPercentage": 20.0,
+  "Tier3WinningsShare": 10.0,
+
+  "AllowMultiPrize": false,
+  "SplitResolution": "nearest"
+}

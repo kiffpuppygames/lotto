@@ -1,0 +1,35 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": ".NET Core Launch (console)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/lotto/bin/Debug/net9.0/lotto",
+            "args": [],
+            "cwd": "${workspaceFolder}/lotto",
+            "console": "integratedTerminal",
+            "stopAtEntry": false,
+        },
+        {
+            "name": ".NET Core Attach",
+            "type": "coreclr",
+            "request": "attach"
+        },
+        {
+            "name": "Debug xUnit Tests",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "${workspaceFolder}/lotto_test/bin/Debug/net9.0/lotto_test.dll", // Adjust the path and framework if needed
+            "args": [],
+            "cwd": "${workspaceFolder}/lotto_test",
+            "stopAtEntry": false,
+            "console": "internalConsole",
+            "preLaunchTask": "Build Test Project",
+        }
+    ]
+}
