@@ -13,7 +13,7 @@
             "args": [],
             "cwd": "${workspaceFolder}/lotto",
             "console": "integratedTerminal",
-            "stopAtEntry": false,
+            "stopAtEntry": false
         },
         {
             "name": ".NET Core Attach",

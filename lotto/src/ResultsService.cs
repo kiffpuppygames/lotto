@@ -2,6 +2,8 @@ using System.Dynamic;
 
 namespace Lotto;
 
+public record CalculateResultError<DrawResult> : ErrorResult<DrawResult>;
+
 public record DisplayResultsCommand : ICommand
 {
     public ulong Id { get; init; }
@@ -60,10 +62,18 @@ public class ResultsService
             _ => (int)Math.Round(Game.Instance.Config.Tier3WinPercentage / 100 * tickets.Count),
         };
 
-        var tier3Winners = tickets
+        var tier3Winners = new List<Ticket>();
+        try
+        {
+            tier3Winners = [.. tickets
             .OrderBy(_ => Game.Instance.Random.Next())
-            .Take(tier3Count)
-            .ToList();
+            .Take(tier3Count)];
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Unable to Calculate Tier 3 winning tickets.\n{e}");
+            return new CalculateResultError<DrawResult>();
+        }        
 
         tickets.RemoveAll(tier3ticket => tier3Winners.Contains(tier3ticket));
             
@@ -82,24 +92,28 @@ public class ResultsService
 
     public static void DisplayResults(DrawResult drawResult)
     {
-        Console.WriteLine($"Total sales: ${drawResult.TotalPot}");
+        Console.WriteLine("Lotto Results:\n");
 
-        Console.WriteLine($"Grand prize winner, {Game.Instance.Players[(int)drawResult.GrandPrizeWinner.Owner].Name}, wins ${drawResult.GrandPrizePot} with ticket {drawResult.GrandPrizeWinner.Id}");
+        Console.WriteLine($"* Grand Prize: {Game.Instance.Players[(int)drawResult.GrandPrizeWinner.Owner].Name}, wins ${drawResult.GrandPrizePot:C} with ticket {drawResult.GrandPrizeWinner.Id}\n");
         
-        Console.WriteLine("Tier 2 Winners:");
-        foreach(var winner in drawResult.Tier2Winners)
-        {
-            Console.WriteLine($"\t {Game.Instance.Players[(int)winner.Owner-1].Name} with ticket {winner.Id}");
-        }
-        Console.WriteLine($"Each win ${drawResult.Tier2PrizePot / drawResult.Tier2Winners.Count} of ${drawResult.Tier2PrizePot}");
+        var t2Winners = string.Join(", ", drawResult.Tier2Winners.Select(winner => $"{Game.Instance.Players.IndexOf(Game.Instance.Players[(int)winner.Owner - 1])}(T{winner.Id})"));
+        var tier2InduvidualPrize = drawResult.Tier2Winners.Count > 0 ? drawResult.Tier2PrizePot / drawResult.Tier2Winners.Count : 0;
+        Console.WriteLine($"* Tier 2 Winners: Players {t2Winners} win {tier2InduvidualPrize:C} each of ${drawResult.Tier2PrizePot:C}");
 
-        Console.WriteLine("Tier 3 Winners:");
-        foreach(var winner in drawResult.Tier3Winners)
-        {
-            Console.WriteLine($"\t {Game.Instance.Players[(int)winner.Owner - 1].Name} with ticket {winner.Id}");
-        }
-        Console.WriteLine($"Each win ${drawResult.Tier3PrizePot / drawResult.Tier3Winners.Count} of ${drawResult.Tier3PrizePot}");
+        var t3Winners = string.Join(", ", drawResult.Tier3Winners.Select(winner => $"{Game.Instance.Players.IndexOf(Game.Instance.Players[(int)winner.Owner - 1])}(T{winner.Id})"));
+        var tier3InduvidualPrize = drawResult.Tier3Winners.Count > 0 ? drawResult.Tier3PrizePot / drawResult.Tier2Winners.Count : 0;
+        Console.WriteLine($"* Tier 2 Winners: Players {t3Winners} win {tier3InduvidualPrize:C} each of ${drawResult.Tier3PrizePot:C}");
 
-        Console.WriteLine($"The House Takes ${drawResult.TotalPot - drawResult.GrandPrizePot - drawResult.Tier2PrizePot - drawResult.Tier3PrizePot}");
+        Console.WriteLine($"\nCongratulations to all winners!");
+
+        Console.WriteLine($"Total sales: ${drawResult.TotalPot:C}");
+
+        var houseTake = drawResult.TotalPot - (drawResult.GrandPrizePot + drawResult.Tier2PrizePot + drawResult.Tier3PrizePot);
+        if (houseTake < 0)
+            Console.WriteLine($"Error: House Take is negative. {houseTake:C}");
+        else
+        Console.WriteLine($"The House Takes ${houseTake:C}");
+
+        Console.WriteLine("\n['Esc' to exit.]");
     }
 }

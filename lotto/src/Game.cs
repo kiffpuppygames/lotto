@@ -53,7 +53,8 @@ public record Game
             {
                 if (_instance == null)
                 {
-                    throw new InvalidOperationException("Game instance has not been initialized. Call Initialize first.");
+                    Console.WriteLine("Game instance has not been initialized. Call Initialize first.");
+                    return null!;
                 }
                 return _instance;
             }
@@ -66,7 +67,8 @@ public record Game
         {
             if (_instance != null)
             {
-                throw new InvalidOperationException("Game instance has already been initialized.");
+                Console.WriteLine("Game instance has already been initialized.");
+                return;
             }
             _instance = new Game(randomSeed);
         }
@@ -113,7 +115,7 @@ public record Game
                 Random = new Random();
 
             IdProvider = new();
-            CommandProcessor = new CommandProcessor(this);
+            CommandProcessor = new CommandProcessor();
             _players = [];
         }
         else

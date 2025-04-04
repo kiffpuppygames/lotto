@@ -13,7 +13,7 @@ public record HumanPlayer : IPlayer
     public HumanPlayer(ulong id, string name, double balance)
     {
         Id = (uint)id;
-        Name = name;
+        Name = $"Player 1: {name}";
         Balance = balance;
         TicketsPurchased = 0;
         TicketIds = [];

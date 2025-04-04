@@ -21,10 +21,10 @@ public class ResultsTests : IDisposable
             
             for (int i = 0; i < numberOfPlayers; i++)
             {
-                Game.Instance.CommandProcessor.DispatchCommand(new Lotto.Player.CreatePlayerCommand(Lotto.Player.PlayerType.AI, null, ticketsToPurchase));
+                CommandProcessor.DispatchCommand(new Lotto.Player.CreatePlayerCommand(Lotto.Player.PlayerType.AI, null, ticketsToPurchase));
             }
 
-            if (Game.Instance.CommandProcessor.ProcessCommands() is CommandProccessorResult<CommandResultType> procResult)
+            if (CommandProcessor.ProcessCommands() is CommandProccessorResult<CommandResultType> procResult)
             {
                 Assert.True(procResult.ResultType == CommandResultType.Exited , $"Expected Ok, but got {procResult.ResultType}.");
             }
@@ -44,9 +44,9 @@ public class ResultsTests : IDisposable
 
             Assert.True(Game.Instance.Tickets.Count == totalPlayerTickets, $"Expected {totalPlayerTickets} ticket, but got {Game.Instance.Tickets.Count}.");
 
-            Game.Instance.CommandProcessor.DispatchCommand(new Lotto.DrawResultsCommand());
+            CommandProcessor.DispatchCommand(new Lotto.DrawResultsCommand());
 
-            if (Game.Instance.CommandProcessor.ProcessCommands() is CommandProccessorResult<CommandResultType> drawResult)
+            if (CommandProcessor.ProcessCommands() is CommandProccessorResult<CommandResultType> drawResult)
             {
                 Assert.True(drawResult.ResultType == CommandResultType.Exited, $"Expected Ok, but got {drawResult.ResultType}.");
             }

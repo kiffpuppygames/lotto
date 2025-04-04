@@ -19,7 +19,7 @@ public record CreatePlayerCommand(in PlayerType PlayerType, in string? Name, uin
     public ulong Id { get; init; } = Game.Instance.IdProvider.NextCommandId;
     public PlayerType PlayerType { get; init; } = PlayerType;
     public string? Name { get; init; } = Name;
-    public uint ?TicketsPurchased { get; init; } = TicketsToPurchase;
+    public uint TicketsPurchased { get; init; } = TicketsToPurchase;
 }
 
 public record PurchaseTicketsCommand(IPlayer Player, in uint NumberOfTickets) : ICommand
@@ -45,23 +45,19 @@ public class PlayerService
                 var human = new HumanPlayer(Game.Instance.IdProvider.NextPlayerId, command.Name, Game.Instance.Config.HumanPlayerStartingBalance);
                 Game.Instance.Players.Add(human);
 
-                Game.Instance.CommandProcessor.DispatchCommand(new PurchaseTicketsCommand(
+                CommandProcessor.DispatchCommand(new PurchaseTicketsCommand(
                     human, 
                     command.TicketsToPurchase)
                 );
-
-                Console.WriteLine($"Human player {command.Name} Created");
                 break;
             case PlayerType.AI: 
                 var ai = new AIPlayer(Game.Instance.IdProvider.NextPlayerId, Game.Instance.Config.HumanPlayerStartingBalance);
                 Game.Instance.Players.Add(ai);
                 
-                Game.Instance.CommandProcessor.DispatchCommand(new PurchaseTicketsCommand(
+                CommandProcessor.DispatchCommand(new PurchaseTicketsCommand(
                     ai, 
                     command.TicketsToPurchase)
                 );
-
-                Console.WriteLine($"AI player {ai.Name} Created");
                 break;
             default:
                 return new InvalidPlayerTypeResult<IPlayer>();
@@ -91,4 +87,6 @@ public class PlayerService
         
         return new OkResult<IPlayer>(command.Player);
     }
+
+    
 }
