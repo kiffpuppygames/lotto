@@ -8,6 +8,8 @@ A simple lotto game made with a data-oriented, command-based architecture.
 
 Why? Because I wanted to demonstrate an alternative option to the traditional OOP design, and I also thought it would be fun... it was.
 
+***NB: I'm on a linux machine and don't have a windows box close by so I have not yet tested on windows but am confident it will work.***
+
 ### Cons
 - Boilerplate and initial system architecture can be time-consuming.
 
@@ -26,6 +28,6 @@ Why? Because I wanted to demonstrate an alternative option to the traditional OO
 ## Conclusion
 Although it can take time to get it up and running, with more time, this could be quite a nice and clean solution that is scalable, extensible, and fault-tolerant.
 
-# Install and run requierments
+## Install and run requierments
 - .Net 9
 - .vscode folder should allow for easy project setup, execution, and setup.
